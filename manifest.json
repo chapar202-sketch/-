@@ -7,7 +7,7 @@
   "orientation": "any",
   "scope": "/",
   "short_name": "-chapar",
-  "start_url": "/chapar tracker",
+  "start_url": "./index.html",
   "theme_color": "#ffffff",
   "icons": [
     {
