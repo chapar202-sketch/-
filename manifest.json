@@ -5,9 +5,9 @@
   "display": "standalone",
   "name": "-chapar",
   "orientation": "any",
-  "scope": "/",
+  "scope": "/chapar/",
   "short_name": "-chapar",
-  "start_url": "/index.html",
+  "start_url": "/chapar/index.html",
   "theme_color": "#ffffff",
   "icons": [
     {
