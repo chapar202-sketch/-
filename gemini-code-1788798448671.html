@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عادت شمار</title>
+    
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --success: #10b981; 
+            --special: #3b82f6; 
+            --emergency: #eab308; 
+            --danger: #ef4444; 
+            --shadow: 0 4px 20px -5px rgb(0 0 0 / 0.1);
+            --radius: 12px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-color="indigo"] { 
+            --primary: #4f46e5; --primary-bg: linear-gradient(135deg, #4f46e5, #818cf8); --primary-light: #e0e7ff; --primary-fade: rgba(79, 70, 229, 0.12);
+            --bg-body: #eef2ff; --bg-surface: #ffffff; --bg-surface-hover: #f5f8ff;
+            --text-main: #1e1b4b; --text-muted: #4f46e5; --border: #c7d2fe;
+        }
+        [data-color="emerald"] { 
+            --primary: #059669; --primary-bg: linear-gradient(135deg, #059669, #34d399); --primary-light: #d1fae5; --primary-fade: rgba(5, 150, 105, 0.12);
+            --bg-body: #ecfdf5; --bg-surface: #ffffff; --bg-surface-hover: #f0fdf4;
+            --text-main: #064e3b; --text-muted: #059669; --border: #a7f3d0;
+        }
+        [data-color="rose"] { 
+            --primary: #e11d48; --primary-bg: linear-gradient(135deg, #e11d48, #fb7185); --primary-light: #ffe4e6; --primary-fade: rgba(225, 29, 72, 0.12);
+            --bg-body: #fff1f2; --bg-surface: #ffffff; --bg-surface-hover: #fff5f6;
+            --text-main: #4c0519; --text-muted: #e11d48; --border: #fecdd3;
+        }
+        [data-color="amber"] { 
+            --primary: #d97706; --primary-bg: linear-gradient(135deg, #d97706, #fbbf24); --primary-light: #fef3c7; --primary-fade: rgba(217, 119, 6, 0.12);
+            --bg-body: #fffbeb; --bg-surface: #ffffff; --bg-surface-hover: #fffdf5;
+            --text-main: #451a03; --text-muted: #d97706; --border: #fde68a;
+        }
+        [data-color="teal"] { 
+            --primary: #0d9488; --primary-bg: linear-gradient(135deg, #0d9488, #2dd4bf); --primary-light: #ccfbf1; --primary-fade: rgba(13, 148, 136, 0.12);
+            --bg-body: #f0fdfa; --bg-surface: #ffffff; --bg-surface-hover: #f5fffd;
+            --text-main: #042f2e; --text-muted: #0d9488; --border: #99f6e4;
+        }
+        [data-color="sunset"] { 
+            --primary: #f43f5e; --primary-bg: linear-gradient(135deg, #f43f5e, #f97316); --primary-light: #ffedd5; --primary-fade: rgba(244, 63, 94, 0.12);
+            --bg-body: #fff7ed; --bg-surface: #ffffff; --bg-surface-hover: #fffcf8;
+            --text-main: #431407; --text-muted: #f43f5e; --border: #fed7aa;
+        }
+        [data-color="ocean"] { 
+            --primary: #0ea5e9; --primary-bg: linear-gradient(135deg, #0ea5e9, #3b82f6); --primary-light: #e0f2fe; --primary-fade: rgba(14, 165, 233, 0.12);
+            --bg-body: #f0f9ff; --bg-surface: #ffffff; --bg-surface-hover: #f4faff;
+            --text-main: #082f49; --text-muted: #0ea5e9; --border: #bae6fd;
+        }
+        [data-color="amethyst"] { 
+            --primary: #8b5cf6; --primary-bg: linear-gradient(135deg, #8b5cf6, #d946ef); --primary-light: #f3e8ff; --primary-fade: rgba(139, 92, 246, 0.12);
+            --bg-body: #faf5ff; --bg-surface: #ffffff; --bg-surface-hover: #fcf9ff;
+            --text-main: #3b0764; --text-muted: #8b5cf6; --border: #e9d5ff;
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #0f172a; --bg-surface: #1e293b; --bg-surface-hover: #334155;
+            --text-main: #f8fafc; --text-muted: #cbd5e1; --border: #334155; --primary-fade: rgba(255, 255, 255, 0.08);
+        }
+        [data-theme="dark"][data-color="indigo"] { --primary: #818cf8; --primary-bg: linear-gradient(135deg, #6366f1, #818cf8); --primary-light: #3730a3; --bg-surface-hover: #3730a340; }
+        [data-theme="dark"][data-color="emerald"] { --primary: #34d399; --primary-bg: linear-gradient(135deg, #10b981, #34d399); --primary-light: #064e3b; --bg-surface-hover: #064e3b40; }
+        [data-theme="dark"][data-color="rose"] { --primary: #fb7185; --primary-bg: linear-gradient(135deg, #e11d48, #fb7185); --primary-light: #881337; --bg-surface-hover: #88133740; }
+        [data-theme="dark"][data-color="amber"] { --primary: #fbbf24; --primary-bg: linear-gradient(135deg, #f59e0b, #fbbf24); --primary-light: #78350f; --bg-surface-hover: #78350f40; }
+        [data-theme="dark"][data-color="teal"] { --primary: #2dd4bf; --primary-bg: linear-gradient(135deg, #14b8a6, #2dd4bf); --primary-light: #115e59; --bg-surface-hover: #115e5940; }
+        [data-theme="dark"][data-color="sunset"] { --primary: #fb7185; --primary-bg: linear-gradient(135deg, #f43f5e, #fbbf24); --primary-light: #7c2d12; --bg-surface-hover: #7c2d1240; }
+        [data-theme="dark"][data-color="ocean"] { --primary: #38bdf8; --primary-bg: linear-gradient(135deg, #0ea5e9, #818cf8); --primary-light: #0c4a6e; --bg-surface-hover: #0c4a6e40; }
+        [data-theme="dark"][data-color="amethyst"] { --primary: #c084fc; --primary-bg: linear-gradient(135deg, #a855f7, #e879f9); --primary-light: #4c1d95; --bg-surface-hover: #4c1d9540; }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Vazirmatn', sans-serif; }
+        body { background: var(--bg-body); color: var(--text-main); padding: 1rem; font-size: 13px; transition: var(--transition); }
+        
+        .container { max-width: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
+        .card { background: var(--bg-surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1rem; border: 1px solid var(--border); transition: var(--transition); }
+        
+        .header-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; border-top: 5px solid transparent; border-image: var(--primary-bg) 1; border-radius: var(--radius) var(--radius) 0 0; }
+        .header-title { display: flex; align-items: center; gap: 0.8rem; color: var(--primary); font-size: 1.5rem; font-weight: 800; }
+        
+        .controls-row { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+        .control-group { display: flex; align-items: center; gap: 0.5rem; background: var(--bg-surface-hover); padding: 0.4rem; border-radius: 10px; border: 1px solid var(--border); }
+        
+        .theme-swatch-container { display: flex; gap: 6px; padding: 4px 8px; border-right: 1px solid var(--border); }
+        .swatch-wrapper { position: relative; display: inline-flex; align-items: center; justify-content: center; }
+        .swatch { width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: transform 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .swatch:hover { transform: scale(1.15); }
+        .swatch.active { transform: scale(1.3); box-shadow: 0 4px 10px rgba(0,0,0,0.3); border-color: transparent; }
+        
+        .swatch-tooltip {
+            visibility: hidden; opacity: 0; position: absolute; top: 130%; right: 50%; transform: translateX(50%);
+            background: var(--bg-surface); border: 1px solid var(--primary); color: var(--text-main);
+            padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; white-space: nowrap; font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 10000; transition: all 0.2s ease-out; pointer-events: none;
+        }
+        .swatch-wrapper:hover .swatch-tooltip { visibility: visible; opacity: 1; top: 150%; }
+        
+        .form-group { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 0.75rem; background: var(--primary-fade); padding: 1rem; border-radius: 10px; border: 1px solid var(--border); transition: var(--transition); }
+        .form-row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; position: relative; }
+        select, input, textarea { padding: 0.6rem; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-surface); color: var(--text-main); outline: none; font-size: 0.9rem; font-weight: 500; transition: var(--transition); }
+        select:focus, input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-fade); }
+        
+        .suggestions-box { position: absolute; top: 100%; right: 0; width: 100%; background: var(--bg-surface); border: 1px solid var(--primary); border-radius: 8px; box-shadow: 0 8px 15px rgba(0,0,0,0.15); z-index: 1000; display: none; flex-direction: column; overflow: hidden; margin-top: 4px; }
+        .suggestion-item { padding: 8px 12px; cursor: pointer; transition: background 0.2s; font-weight: bold; font-size: 0.9rem; display: flex; justify-content: space-between;}
+        .suggestion-item:hover { background: var(--primary-fade); color: var(--primary); }
+        .suggestion-label { font-size: 0.75rem; color: var(--text-muted); font-weight: normal; }
+
+        button { cursor: pointer; font-weight: bold; border: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; border-radius: 8px; transition: var(--transition); }
+        .btn-primary { background: var(--primary-bg); color: white; padding: 0.6rem 1.2rem; }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 10px var(--primary-fade); }
+        .btn-icon { background: var(--bg-surface); color: var(--text-muted); font-size: 1.1rem; padding: 0.5rem; border-radius: 8px; border: 1px solid var(--border); }
+        .btn-icon:hover { background: var(--primary-bg); color: white; border-color: var(--primary); }
+        
+        .cloud-blur { filter: blur(5px) opacity(0.85); pointer-events: none; user-select: none; transition: all 0.4s ease-in-out; }
+        [data-theme="dark"] .cloud-blur { filter: blur(5px) opacity(0.7) brightness(0.9); }
+
+        .table-container { width: 100%; border-radius: 10px; border: 1px solid var(--border); box-shadow: var(--shadow); background: var(--bg-surface); overflow: visible; transition: var(--transition); }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; text-align: center; table-layout: fixed; }
+        th, td { padding: 4px 2px; border-bottom: 1px solid var(--border); border-left: 1px solid var(--border); font-size: 0.8rem; overflow: visible; white-space: nowrap; }
+        
+        th { background: var(--primary-light); color: var(--text-main); font-weight: 700; height: 35px; }
+        th:first-child, td:first-child { width: 22%; text-align: right; padding-right: 8px; background: var(--bg-surface); border-left: 2px solid var(--primary); }
+        th:first-child { background: var(--primary-light); }
+        
+        tr:hover td:not(:first-child) { background: var(--bg-surface-hover); }
+        tr:hover td:first-child { background: var(--primary-fade); }
+
+        .day-cell { width: 2.1%; cursor: pointer; user-select: none; position: relative; }
+        .day-cell.future { cursor: not-allowed; opacity: 0.3; background: repeating-linear-gradient(45deg, transparent, transparent 4px, var(--primary-fade) 4px, var(--primary-fade) 8px); }
+        .day-cell.today { font-weight: bold; background: var(--primary-light); }
+        .day-cell.locked { cursor: not-allowed; opacity: 0.6; background: repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(0,0,0,0.02) 4px, rgba(0,0,0,0.02) 8px); }
+        [data-theme="dark"] .day-cell.locked { background: repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(255,255,255,0.02) 4px, rgba(255,255,255,0.02) 8px); }
+        
+        .bite-indicator { width: 16px; height: 16px; margin: 0 auto; border-radius: 4px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; transition: all 0.2s; background: var(--bg-surface); }
+        .day-cell:hover:not(.future):not(.locked) .bite-indicator { border-color: var(--primary); transform: scale(1.15); }
+        
+        .bite-small { background: var(--success); border-color: var(--success); }
+        .bite-special { background: var(--special); border-color: var(--special); }
+        .bite-emergency { background: var(--emergency); border-color: var(--emergency); }
+        
+        .stat-col { width: 4.5%; font-weight: bold; }
+        .penalty-col { width: 7.5%; color: var(--danger); font-weight: bold; font-size: 0.75rem; }
+
+        .progress-wrapper { width: 100%; height: 6px; background: var(--primary-fade); border-radius: 4px; overflow: hidden; margin-top: 6px; }
+        .progress-fill { height: 100%; background: var(--primary-bg); transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .progress-text { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; font-weight: bold; text-align: left;}
+
+        .legend { display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.85rem; padding: 0.8rem; align-items: center; justify-content: center; background: var(--bg-surface-hover); border-radius: 10px; margin-top: 0.75rem; border: 1px solid var(--border); }
+        .legend-item { display: flex; align-items: center; gap: 0.4rem; font-weight: 600; color: var(--text-main); }
+        .dot { width: 12px; height: 12px; border-radius: 3px; }
+        .dot.small { background: var(--success); }
+        .dot.special { background: var(--special); }
+        .dot.emergency { background: var(--emergency); }
+
+        .tooltip-wrapper { position: relative; display: inline-flex; align-items: center; margin-right: 6px; vertical-align: middle; }
+        .info-mark { display: inline-flex; justify-content: center; align-items: center; width: 18px; height: 18px; background: var(--primary-light); border: 1px solid var(--primary); border-radius: 50%; font-size: 11px; font-weight: bold; color: var(--primary); cursor: help; }
+        
+        .tooltip-box { 
+            visibility: hidden; opacity: 0; position: absolute; right: 100%; top: -10px; margin-right: 12px; 
+            width: 340px; background: var(--bg-surface); border: 2px solid var(--primary); 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.25); padding: 12px; border-radius: 12px; 
+            z-index: 999999; font-size: 0.8rem; line-height: 1.6; text-align: right; color: var(--text-main); 
+            white-space: normal; transform: translateX(10px); transition: all 0.2s ease-out; pointer-events: none;
+        }
+        .tooltip-wrapper:hover .tooltip-box { visibility: visible; opacity: 1; transform: translateX(0); }
+        .tooltip-row { margin-bottom: 4px; display: flex; align-items: flex-start; gap: 6px; border-bottom: 1px dashed var(--border); padding-bottom: 4px; }
+        .tooltip-row:last-child { border: none; margin-bottom: 0; padding-bottom: 0; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-top: 0.5rem; transition: var(--transition); }
+        .stat-box { padding: 1rem; border-radius: var(--radius); background: var(--bg-surface); display: flex; align-items: center; gap: 0.75rem; border: 1px solid var(--border); border-right: 4px solid var(--primary); box-shadow: var(--shadow); position: relative; transition: var(--transition); }
+        .stat-box:hover { transform: translateY(-2px); box-shadow: 0 8px 25px -5px rgba(0,0,0,0.15); }
+        .stat-box.penalty { border-right-color: var(--danger); }
+        .stat-box.paid { border-right-color: var(--success); }
+        .stat-box h3 { font-size: 1.1rem; margin-top: 0.2rem; }
+        
+        /* منوی همبرگری سفارشی با کلیک */
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown-content { display: none; position: absolute; left: 0; top: 100%; background-color: var(--bg-surface); min-width: 140px; box-shadow: var(--shadow); border: 1px solid var(--border); border-radius: 8px; z-index: 100; overflow: hidden; }
+        .dropdown-content.show { display: block; }
+        .dropdown-content button { width: 100%; text-align: right; padding: 10px 14px; background: none; border: none; color: var(--text-main); font-size: 0.85rem; display: flex; align-items: center; gap: 8px; }
+        .dropdown-content button:hover { background-color: var(--primary-fade); color: var(--primary); }
+        .dropdown-content button.danger { color: var(--danger); }
+        .dropdown-content button.danger:hover { background-color: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+        .notebook-card { background: var(--bg-surface); padding: 1.5rem; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); margin-top: 1rem; display: none; }
+        .notebook-card.open { display: block; }
+        .notebook-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary-fade); padding-bottom: 1rem; margin-bottom: 1rem; }
+        .notebook-list { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-left: 5px; }
+        .note-item { padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-surface-hover); position: relative; }
+        .note-item.system { border-right: 4px solid var(--danger); background: rgba(239, 68, 68, 0.05); }
+        .note-item.user { border-right: 4px solid var(--primary); }
+        .note-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px; }
+        .note-meta span { font-weight: bold; color: var(--primary); }
+        
+        .completed-habits { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; }
+        .completed-badge { background: linear-gradient(135deg, var(--success), #34d399); color: white; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 5px rgba(16, 185, 129, 0.3); }
+
+        .charts-container { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; transition: var(--transition); margin-top: 1rem; }
+        .chart-box { background: var(--bg-surface); padding: 1.2rem; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); min-height: 300px; display: flex; flex-direction: column; transition: var(--transition); }
+        .chart-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid var(--primary-fade); padding-bottom: 0.75rem; }
+        .chart-canvas-wrapper { flex: 1; position: relative; min-height: 220px; transition: opacity 0.4s ease; }
+        @media (max-width: 1024px) { .charts-container { grid-template-columns: 1fr; } }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .modal-content { background: var(--bg-surface); padding: 2.5rem; border-radius: var(--radius); max-width: 750px; width: 90%; max-height: 85vh; overflow-y: auto; position: relative; border: 1px solid var(--border); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        .modal-close { position: absolute; top: 1rem; left: 1rem; background: var(--bg-surface-hover); border: 1px solid var(--border); font-size: 1.2rem; cursor: pointer; color: var(--text-muted); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+        .modal-close:hover { background: var(--danger); color: white; border-color: var(--danger); transform: rotate(90deg); }
+        
+        .modal-content h3 { font-size: 1.5rem; color: var(--primary); border-bottom: 2px solid var(--primary-fade); padding-bottom: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+        .modal-content h4 { font-size: 1.1rem; color: var(--text-main); margin-top: 25px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .help-list { list-style: none; padding: 0; }
+        .help-list li { background: var(--bg-surface-hover); border: 1px solid var(--border); padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 12px; line-height: 1.6; }
+        .help-list li i { background: var(--bg-surface); padding: 6px; border-radius: 6px; color: var(--primary); box-shadow: var(--shadow); }
+
+        .toast { position: fixed; bottom: 20px; left: 20px; background: var(--text-main); color: var(--bg-surface); padding: 12px 24px; border-radius: 8px; z-index: 9999; display: none; font-weight: bold; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="card header-bar">
+        <div class="header-title">
+            <button class="btn-icon" style="background: var(--primary-bg); color: white; border-color: var(--primary);" onclick="openHelp()" title="راهنمای استفاده"><span class="material-symbols-rounded">help</span></button>
+            عادت شمار
+        </div>
+        
+        <div class="controls-row">
+            <div class="control-group" style="background: transparent; border: none; padding: 0;">
+                <button class="btn-icon" onclick="enableNotifications()" title="فعال‌سازی هشدار روزانه (ساعت ۱۹:۵۰)"><span class="material-symbols-rounded" id="notif-icon">notifications</span></button>
+            </div>
+
+            <div class="control-group">
+                <select id="month-select" onchange="changeDate()"></select>
+                <select id="year-select" onchange="changeDate()"></select>
+            </div>
+            
+            <div class="control-group">
+                <button class="btn-primary" style="padding: 0.5rem 0.8rem;" onclick="goToToday()" title="بازگشت به تاریخ امروز">امروز <span class="material-symbols-rounded">today</span></button>
+                <span id="sys-date" style="font-weight: bold; color: var(--text-main); padding: 0 5px;"></span>
+            </div>
+
+            <div class="control-group">
+                <button class="btn-icon" onclick="toggleTheme()" id="theme-btn" title="تغییر پوسته شب/روز"><span class="material-symbols-rounded">dark_mode</span></button>
+                <div class="theme-swatch-container">
+                    <div class="swatch-wrapper"><button class="swatch" style="background: linear-gradient(135deg, #4f46e5, #818cf8)" onclick="changeColorTheme('indigo')"></button><span class="swatch-tooltip">کهکشان نیلی</span></div>
+                    <div class="swatch-wrapper"><button class="swatch" style="background: linear-gradient(135deg, #059669, #34d399)" onclick="changeColorTheme('emerald')"></button><span class="swatch-tooltip">جنگل زمردین</span></div>
+                    <div class="swatch-wrapper"><button class="swatch" style="background: linear-gradient(135deg, #e11d48, #fb7185)" onclick="changeColorTheme('rose')"></button><span class="swatch-tooltip">یاقوت سرخ</span></div>
+                    <div class="swatch-wrapper"><button class="swatch" style="background: linear-gradient(135deg, #d97706, #fbbf24)" onclick="changeColorTheme('amber')"></button><span class="swatch-tooltip">کهربای باستانی</span></div>
+                    <div class="swatch-wrapper"><button class="swatch" style="background: linear-gradient(135deg, #0d9488, #2dd4bf)" onclick="changeColorTheme('teal')"></button><span class="swatch-tooltip">چشمه فیروزه</span></div>
+                    <div class="swatch-wrapper"><button class="swatch" style="background: linear-gradient(135deg, #f43f5e, #f97316)" onclick="changeColorTheme('sunset')"></button><span class="swatch-tooltip">غروب پاییز</span></div>
+                    <div class="swatch-wrapper"><button class="swatch" style="background: linear-gradient(135deg, #0ea5e9, #3b82f6)" onclick="changeColorTheme('ocean')"></button><span class="swatch-tooltip">اقیانوس آرام</span></div>
+                    <div class="swatch-wrapper"><button class="swatch" style="background: linear-gradient(135deg, #8b5cf6, #d946ef)" onclick="changeColorTheme('amethyst')"></button><span class="swatch-tooltip">ارکیده بنفش</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="padding-bottom: 0.5rem;" id="main-content-card">
+        <div class="form-group">
+            <div class="form-row">
+                <select id="preset-habits" style="flex: 2" onchange="loadPreset()">
+                    <option value="" data-title="" data-small="" data-special="" data-emergency="">-- انتخاب عادت جدید --</option>
+                    <optgroup label="محرمات">
+                        <option value="preset" data-title="غیبت" data-small="فرد و همگام غیبت نکنند" data-special="اگر همگام غیبت کرد فرد غیبت نکند" data-emergency="ندارد">غیبت (کوچک: فرد و همگام غیبت نکنند | ویژه: اگر همگام غیبت کرد فرد غیبت نکند | اضطراری: ندارد)</option>
+                        <option value="preset" data-title="دروغ" data-small="به همگام دروغ نگوید" data-special="اگر دروغ گفت راست آن را بگوید" data-emergency="ندارد">دروغ (کوچک: نگفتن | ویژه: راستش را گفتن | اضطراری: ندارد)</option>
+                        <option value="preset" data-title="خشم" data-small="یک صلوات قبل از بروز خشم نسبت به همگام" data-special="عذرخواهی در صورت عدم صلوات" data-emergency="ندارد">خشم (کوچک: صلوات | ویژه: عذرخواهی | اضطراری: ندارد)</option>
+                        <option value="preset" data-title="استمناء" data-small="به تاخیر انداختن یک ساعت" data-special="نیم ساعت به تاخیر انداختن" data-emergency="یک یا دو دقیقه تاخیر">استمناء (کوچک: ۱ ساعت تاخیر | ویژه: نیم ساعت | اضطراری: ۲ دقیقه)</option>
+                    </optgroup>
+                    <optgroup label="واجبات و مستحبات">
+                        <option value="preset" data-title="نمازهای روزانه (جز صبح)" data-small="هر وعده که خوانده نشد تا قبل خواب ادا شود" data-special="ندارد" data-emergency="ندارد">نمازها جز صبح (کوچک: ادا قبل خواب | اضطراری: ندارد)</option>
+                        <option value="preset" data-title="نماز قضا" data-small="یک نماز دو رکعتی" data-special="یک نماز مستحبی" data-emergency="ندارد">نماز قضا (کوچک: دو رکعت | ویژه: نماز مستحبی | اضطراری: ندارد)</option>
+                        <option value="preset" data-title="قرائت قرآن (۱)" data-small="خواندن یک صفحه قرآن" data-special="خواندن نیم صفحه قرآن" data-emergency="خواندن یک خط قرآن">قرائت قرآن ۱ (کوچک: ۱ صفحه | ویژه: نیم صفحه | اضطراری: ۱ خط)</option>
+                        <option value="preset" data-title="قرائت قرآن (۲)" data-small="۵ دقیقه قرآن خواندن" data-special="۲ دقیقه قرآن خواندن" data-emergency="نیم یا ۱ دقیقه قرآن">قرائت قرآن ۲ (کوچک: ۵ دقیقه | ویژه: ۲ دقیقه | اضطراری: ۱ دقیقه)</option>
+                        <option value="preset" data-title="ارتباط با امام زمان" data-small="اول صبح سلام و صدقه" data-special="سلام و صدقه در طول روز" data-emergency="سلام به تنهایی هر زمان مقدور شد">ارتباط با امام زمان (کوچک: صبح | ویژه: طول روز | اضطراری: فقط سلام)</option>
+                        <option value="preset" data-title="تنظیم خواب" data-small="ثابت کردن ساعت فعلی خواب" data-special="یک ساعت دیرتر خوابیدن" data-emergency="سه ساعت دیرتر خوابیدن">تنظیم خواب (کوچک: تثبیت ساعت | ویژه: ۱ ساعت تاخیر | اضطراری: ۳ ساعت تاخیر)</option>
+                        <option value="preset" data-title="نماز اول وقت" data-small="تا نیم ساعت بعد اذان" data-special="تا یک ساعت بعد اذان" data-emergency="تا سه ساعت بعد اذان">نماز اول وقت (کوچک: نیم ساعت | ویژه: ۱ ساعت | اضطراری: ۳ ساعت)</option>
+                        <option value="preset" data-title="تمرکز در نماز (۱)" data-small="توجه به معانی رکوع/سجود رکعت اول" data-special="توجه به معانی رکوع/سجود رکعت دوم" data-emergency="توجه به معانی رکوع/سجود رکعت سوم">تمرکز در نماز ۱ (تمرکز بر رکوع/سجود)</option>
+                        <option value="preset" data-title="تمرکز در نماز (۲)" data-small="توجه به معانی ۳ آیه اول حمد" data-special="توجه به معانی ۴ آیه بعدی حمد" data-emergency="توجه در معنای سوره توحید">تمرکز در نماز ۲ (تمرکز بر حمد/توحید)</option>
+                    </optgroup>
+                    <optgroup label="مکروهات و سلامتی">
+                        <option value="preset" data-title="پر حرفی" data-small="یک ساعت حرف زائد نزدن" data-special="نیم ساعت حرف زائد نزدن" data-emergency="۵ دقیقه حرف زائد نزدن">پر حرفی (کوچک: ۱ ساعت | ویژه: نیم ساعت | اضطراری: ۵ دقیقه)</option>
+                        <option value="preset" data-title="فضای مجازی" data-small="تا ۱ ساعت بعد بیداری نرفتن" data-special="تا نیم ساعت بعد بیداری نرفتن" data-emergency="۵ دقیقه ساعت پاک داشتن">فضای مجازی (کوچک: ۱ ساعت | ویژه: نیم ساعت | اضطراری: ۵ دقیقه پاک)</option>
+                        <option value="preset" data-title="کنترل تغذیه" data-small="محاسبه دقیق کالری مصرفی" data-special="محاسبه حدودی کالری در آخر شب" data-emergency="ندارد">کنترل تغذیه (کوچک: دقیق | ویژه: حدودی | اضطراری: ندارد)</option>
+                        <option value="preset" data-title="ورزش" data-small="۵ دقیقه ورزش" data-special="۲ دقیقه ورزش کردن" data-emergency="۱ دقیقه ورزش کردن">ورزش (کوچک: ۵ دقیقه | ویژه: ۲ دقیقه | اضطراری: ۱ دقیقه)</option>
+                    </optgroup>
+                    <optgroup label="خانواده و علمی">
+                        <option value="preset" data-title="والدین (متاهل)" data-small="یک تماس در طول روز" data-special="یک تماس بدون پاسخ" data-emergency="ندارد">وقت والدین متاهل (کوچک: تماس | ویژه: تماس بی پاسخ | اضطراری: ندارد)</option>
+                        <option value="preset" data-title="والدین (مجرد)" data-small="۱۵ دقیقه وقت گذاشتن" data-special="۵ دقیقه وقت گذاشتن" data-emergency="۱ دقیقه وقت گذاشتن">وقت والدین مجرد (کوچک: ۱۵ دقیقه | ویژه: ۵ دقیقه | اضطراری: ۱ دقیقه)</option>
+                        <option value="preset" data-title="همسر (محبت)" data-small="بیان لفظی دوست داشتن" data-special="بیان متنی دوست داشتن" data-emergency="ندارد">همسر محبت (کوچک: لفظی | ویژه: متنی | اضطراری: ندارد)</option>
+                        <option value="preset" data-title="همسر (وقت گذاری)" data-small="۱۵ دقیقه وقت گذاشتن" data-special="۵ دقیقه وقت گذاشتن" data-emergency="۱ دقیقه وقت گذاشتن">همسر وقت گذاری (کوچک: ۱۵ دقیقه | ویژه: ۵ دقیقه | اضطراری: ۱ دقیقه)</option>
+                        <option value="preset" data-title="فرزند کوچک" data-small="۱۵ دقیقه بازی" data-special="۵ دقیقه بازی" data-emergency="۱ دقیقه بازی">فرزند کوچک (کوچک: ۱۵ دقیقه | ویژه: ۵ دقیقه | اضطراری: ۱ دقیقه)</option>
+                        <option value="preset" data-title="فرزند بزرگ" data-small="۱۵ دقیقه وقت گذاشتن" data-special="۵ دقیقه وقت گذاشتن" data-emergency="۱ دقیقه وقت گذاشتن">فرزند بزرگ (کوچک: ۱۵ دقیقه | ویژه: ۵ دقیقه | اضطراری: ۱ دقیقه)</option>
+                        <option value="preset" data-title="مطالعه کتاب" data-small="۵ دقیقه مطالعه کردن" data-special="۲ دقیقه مطالعه کردن" data-emergency="۱ دقیقه مطالعه کردن">مطالعه کتاب (کوچک: ۵ دقیقه | ویژه: ۲ دقیقه | اضطراری: ۱ دقیقه)</option>
+                    </optgroup>
+                    <option value="other">سایر (تعریف عادت دلخواه)</option>
+                </select>
+                
+                <div style="position:relative; flex:1; min-width: 150px;">
+                    <input type="text" id="habit-penalty" placeholder="جریمه هر روز (تومان)" oninput="handlePenaltyInput(this)" onfocus="handlePenaltyInput(this)" onblur="setTimeout(()=>hideSuggestions(), 250)" style="width:100%;">
+                    <div id="penalty-suggestions" class="suggestions-box"></div>
+                </div>
+
+                <button class="btn-primary" onclick="addHabit()"><span class="material-symbols-rounded">add</span> افزودن</button>
+                <button class="btn-icon" onclick="toggleBlurMode()" title="پنهان کردن اطلاعات (حریم خصوصی)"><span class="material-symbols-rounded">visibility_off</span></button>
+            </div>
+            
+            <div id="custom-habit-fields" style="display: none; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; padding-top: 0.75rem; border-top: 1px dashed var(--border);">
+                <input type="text" id="custom-title" placeholder="عنوان عادت" style="flex: 1; min-width: 150px;">
+                <input type="text" id="custom-small" placeholder="توضیح لقمه کوچک" style="flex: 1; min-width: 150px;">
+                <input type="text" id="custom-special" placeholder="توضیح لقمه ویژه" style="flex: 1; min-width: 150px;">
+                <input type="text" id="custom-emergency" placeholder="توضیح لقمه اضطراری (یا بنویسید ندارد)" style="flex: 1; min-width: 150px;">
+            </div>
+        </div>
+
+        <div class="table-container" id="blur-target-table">
+            <table>
+                <thead><tr id="thead-row"></tr></thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item"><div class="dot small"></div> لقمه کوچک</div>
+            <div class="legend-item"><div class="dot special"></div> لقمه ویژه</div>
+            <div class="legend-item"><div class="dot emergency"></div> لقمه اضطراری</div>
+            <div class="legend-item"><div class="dot" style="background:var(--bg-surface-hover); border:1px solid var(--border)"></div> انجام نشده (مشمول جریمه)</div>
+        </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-box penalty">
+            <div>
+                <div style="color: var(--text-muted); margin-bottom: 4px; font-weight: bold; font-size: 0.85rem;">جریمه کل (تا دیروز)</div>
+                <h3 id="total-penalty">۰ تومان</h3>
+            </div>
+        </div>
+        <div class="stat-box paid">
+            <div>
+                <div style="color: var(--text-muted); margin-bottom: 4px; font-weight: bold; font-size: 0.85rem;">جریمه پرداخت شده</div>
+                <h3 id="paid-penalty">۰ تومان</h3>
+            </div>
+        </div>
+        <div class="stat-box">
+            <div>
+                <div style="color: var(--text-muted); margin-bottom: 4px; font-weight: bold; font-size: 0.85rem;">بدهی فعلی</div>
+                <h3 id="debt-penalty" style="color: var(--danger)">۰ تومان</h3>
+            </div>
+        </div>
+        <div class="stat-box" style="justify-content: center; cursor: pointer; background: var(--primary-bg); color: white; border-right: none;" onclick="payPenalty()">
+            <span class="material-symbols-rounded" style="font-size: 2rem;">payments</span>
+            <strong style="font-size: 1.1rem;">ثبت پرداخت جریمه</strong>
+        </div>
+        <div class="stat-box" style="justify-content: center; cursor: pointer; background: var(--bg-surface-hover); border: 1px solid var(--border);" onclick="toggleNotebook()" title="دفترچه تحلیل عادت‌ها">
+            <span class="material-symbols-rounded" style="font-size: 2rem; color: var(--primary);">menu_book</span>
+            <strong style="font-size: 1.1rem; color: var(--text-main);">دفترچه تحلیل</strong>
+        </div>
+    </div>
+
+    <!-- Notebook & Completed -->
+    <div class="notebook-card" id="notebook-card">
+        <div class="notebook-header">
+            <h3 style="color: var(--primary); font-size: 1.3rem; margin:0; display:flex; align-items:center; gap:8px;"><span class="material-symbols-rounded">import_contacts</span> دفترچه تحلیل و چله‌های موفق</h3>
+            <button class="modal-close" style="position:static;" onclick="toggleNotebook()"><span class="material-symbols-rounded">close</span></button>
+        </div>
+        
+        <div id="completed-habits-container" class="completed-habits" style="display:none;"></div>
+        
+        <div class="form-row" style="margin-bottom: 1rem;">
+            <select id="notebook-habit-select" style="flex:1;">
+                <option value="">-- انتخاب عادت برای نوشتن تحلیل --</option>
+            </select>
+            <input type="text" id="notebook-input" placeholder="متن تحلیل..." style="flex: 3;">
+            <button class="btn-primary" onclick="addNotebookEntry()">ثبت</button>
+        </div>
+        
+        <div class="notebook-list" id="notebook-list">
+            <!-- Notes go here -->
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-container" id="charts-section">
+        <div class="chart-box">
+            <div class="chart-header-row">
+                <h3 style="font-size: 1.1rem; color: var(--primary); display:flex; align-items:center; gap:6px;"><span class="material-symbols-rounded">pie_chart</span> توزیع کیفیت لقمه‌ها</h3>
+            </div>
+            <div class="chart-canvas-wrapper">
+                <canvas id="biteBarChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-box">
+            <div class="chart-header-row">
+                <h3 style="font-size: 1.1rem; color: var(--primary); display:flex; align-items:center; gap:6px;"><span class="material-symbols-rounded">monitoring</span> گزارش‌های تحلیلی</h3>
+                <select id="secondary-chart-type" onchange="changeSecondaryChart()" style="padding: 0.4rem; font-size: 0.85rem; border-color: var(--border); background: var(--bg-surface-hover);">
+                    <option value="daily">روند عملکرد روزانه (مساحت پرشده)</option>
+                    <option value="monthly">عملکرد ماهانه در کل سال (درصد)</option>
+                    <option value="habits">مقایسه تیک‌های عادت‌ها</option>
+                    <option value="penaltyTrend">روند تجمیعی جریمه در ماه</option>
+                    <option value="streakCompare">مقایسه استریک مداوم</option>
+                </select>
+            </div>
+            <div class="chart-canvas-wrapper" id="secondary-chart-wrapper">
+                <canvas id="secondaryChart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div style="text-align: left; margin-top: 0.5rem; display: flex; gap: 10px; justify-content: flex-end; align-items: center;">
+        <span style="color: var(--text-muted); font-size: 0.85rem; margin-left: auto;">اطلاعات در مرورگر شما ذخیره می‌شود. لطفاً بکاپ بگیرید.</span>
+        <button class="btn-icon" style="border-radius: 8px; font-size:0.9rem;" onclick="exportData()" title="خروجی اطلاعات"><span class="material-symbols-rounded" style="font-size:1.1rem;">download</span> دریافت بکاپ</button>
+        <button class="btn-icon" style="border-radius: 8px; font-size:0.9rem;" onclick="document.getElementById('import-file').click()" title="بازیابی اطلاعات"><span class="material-symbols-rounded" style="font-size:1.1rem;">upload</span> بارگذاری فایل</button>
+        <input type="file" id="import-file" style="display:none" accept=".json" onchange="importData(event)">
+    </div>
+</div>
+
+<!-- Modal راهنما -->
+<div id="help-modal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeHelp()"><span class="material-symbols-rounded">close</span></button>
+        <h3 style="display: flex; align-items: center; gap: 8px;"><span class="material-symbols-rounded" style="font-size: 1.8rem;">menu_book</span>راهنمای جامع استفاده از عادت شمار</h3>
+        
+        <h4><span class="material-symbols-rounded" style="color: var(--primary)">restaurant</span> مفاهیم لقمه‌ها در جدول</h4>
+        <p>به جای اینکه فقط تیک بزنیم که کاری انجام شده یا نه، در این سیستم کیفیت انجام کار را به سه سطح (لقمه) تقسیم می‌کنیم. با کلیک روی هر خانه در جدول، وضعیت تغییر می‌کند:</p>
+        <ul class="help-list">
+            <li><i class="material-symbols-rounded" style="color:var(--success)">check_circle</i> <div><strong>لقمه کوچک (رنگ سبز):</strong> عالی‌ترین و ایده‌آل‌ترین حالت انجام یک کار. تمام شرایط و قوانینِ آن عادت را به طور کامل رعایت کرده‌اید.</div></li>
+            <li><i class="material-symbols-rounded" style="color:var(--special)">star_half</i> <div><strong>لقمه ویژه (رنگ آبی):</strong> حالت متوسط. شاید نتوانستید کار را به عالی‌ترین شکل انجام دهید، اما تا حد قابل قبولی آن را پیش بردید.</div></li>
+            <li><i class="material-symbols-rounded" style="color:var(--emergency)">warning</i> <div><strong>لقمه اضطراری (رنگ زرد):</strong> در روزهای پرفشار، بیماری یا کمبود وقت، انجام این حداقلِ ممکن، باعث می‌شود زنجیره (استریک) عادت شما قطع نشود. (برخی عادت‌ها مثل محرمات ممکن است لقمه اضطراری نداشته باشند).</div></li>
+        </ul>
+
+        <h4><span class="material-symbols-rounded" style="color: var(--primary)">lock</span> قفل شدن و قانون ۴۰ روز (چله)</h4>
+        <p>سیستم برای هر عادت یک دوره ۴۰ روزه در نظر می‌گیرد. اگر روزی را خالی بگذارید و ۲ روز از آن بگذرد، آن خانه <strong>قفل</strong> می‌شود. اگر خانه قفل شده خالی باشد، سیستم یک <strong>شکست</strong> برای شما ثبت کرده، رکوردهای قبلی عادت پاک می‌شود و چله از نو شروع می‌گردد. در صورت موفقیت ۴۰ روزه، عادت به لیست چله‌های موفق منتقل می‌گردد. تمامی این اتفاقات در دفترچه تحلیل سیستم ثبت می‌شوند.</p>
+        
+        <h4><span class="material-symbols-rounded" style="color: var(--primary)">dashboard_customize</span> ابزارها و امکانات سیستم</h4>
+        <ul class="help-list">
+            <li><i class="material-symbols-rounded">today</i> <div><strong>دکمه امروز:</strong> هر زمان در حال مشاهده ماه‌ها و سال‌های گذشته یا آینده بودید، با این دکمه سریعاً به تاریخ سیستم و ماه جاری خود بازمی‌گردید.</div></li>
+            <li><i class="material-symbols-rounded">palette</i> <div><strong>تم‌های رنگی:</strong> با کلیک روی دایره‌های رنگی در بالای صفحه، رنگ‌بندی کلی برنامه به رنگ دلخواه شما یا حتی تم‌های گرادینتی و جذاب تغییر می‌کند. نام فانتزی هر تم با نگه داشتن موس روی آن نمایش داده می‌شود.</div></li>
+            <li><i class="material-symbols-rounded">dark_mode</i> <div><strong>پوسته شب/روز:</strong> در فضاهای تاریک، با این دکمه نور پس‌زمینه را تاریک کنید تا چشمانتان خسته نشود.</div></li>
+            <li><i class="material-symbols-rounded">visibility_off</i> <div><strong>دکمه حریم خصوصی:</strong> بالای جدول دکمه‌ای قرار دارد که با زدن آن، تمام جداول و نمودارها تار (Blur) می‌شوند تا اگر شخص دیگری کنار شماست، اطلاعات شما را نبیند.</div></li>
+            <li><i class="material-symbols-rounded">payments</i> <div><strong>ثبت پرداخت جریمه:</strong> سیستم برای انجام ندادن عادت‌ها جریمه در نظر می‌گیرد. این جریمه فقط تا "روز گذشته" محاسبه می‌شود. اگر مبلغی را جریمه شدید، آن را پرداخت کنید و با زدن دکمه بزرگ پایین جدول، مبلغ پرداختی را ثبت نمایید تا بدهی سیستم صفر شود.</div></li>
+            <li><i class="material-symbols-rounded">notifications</i> <div><strong>هشدار روزانه:</strong> با فعال‌سازی این بخش، سیستم از طریق نوتیفیکیشن‌های مرورگر، هر روز در ساعت ۱۹:۵۰ یادآوری کارهای باقیمانده را ارسال می‌کند (تب باید در پس‌زمینه مرورگر باز باشد).</div></li>
+            <li><i class="material-symbols-rounded">menu_book</i> <div><strong>دفترچه تحلیل:</strong> از دکمه مربوطه در پایین صفحه باز می‌شود تا هم تحلیل‌های خودتان و هم گزارش‌های اتوماتیک سیستم (شکست‌ها و چله‌های موفق) را مشاهده کنید.</div></li>
+        </ul>
+    </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+    const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    function toFa(num) {
+        if (num === null || num === undefined) return '';
+        return num.toString().replace(/\d/g, x => farsiDigits[x]);
+    }
+    
+    function parseFaNum(str) {
+        if (!str) return 0;
+        let enStr = str.toString().replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/,/g, '');
+        return parseInt(enStr) || 0;
+    }
+
+    function getJalali() {
+        const d = new Date();
+        const f = new Intl.DateTimeFormat('fa-IR', { year:'numeric', month:'numeric', day:'numeric', numberingSystem:'latn' }).formatToParts(d);
+        let y, m, day;
+        f.forEach(p => { if(p.type==='year') y=parseInt(p.value); if(p.type==='month') m=parseInt(p.value); if(p.type==='day') day=parseInt(p.value); });
+        return { year: y, month: m, day: day };
+    }
+    function getDays(y, m) {
+        if(m <= 6) return 31;
+        if(m <= 11) return 30;
+        const a = y - 474, b = (a % 2820) + 474;
+        return (((b * 682) % 2816) < 682) ? 30 : 29;
+    }
+
+    function iterateDays(startJ, endJ, callback) {
+        let y = startJ.year, m = startJ.month, d = startJ.day;
+        while (true) {
+            callback(y, m, d);
+            if (y === endJ.year && m === endJ.month && d === endJ.day) break;
+            d++;
+            if (d > getDays(y, m)) {
+                d = 1; m++;
+                if (m > 12) { m = 1; y++; }
+            }
+            if (y > endJ.year + 5) break; 
+        }
+    }
+
+    const today = getJalali();
+    let viewYear = today.year;
+    let viewMonth = today.month;
+    
+    const STORAGE_KEY = 'BiteHabitTracker_V15';
+    let appData = { habits: {}, records: {}, payments: 0, notebook: [], completed: [] };
+    let charts = {};
+    let isBlurMode = false;
+    
+    let currentRenderData = { habits: [], limit: 0, viewKey: '' };
+
+    function init() {
+        document.getElementById('sys-date').textContent = `${toFa(today.year)}/${toFa(String(today.month).padStart(2,'0'))}/${toFa(String(today.day).padStart(2,'0'))}`;
+        loadData();
+        setupSelectors();
+        initTheme();
+        
+        Chart.register(ChartDataLabels);
+        Chart.defaults.plugins.datalabels = { display: false };
+        Chart.defaults.animation = { duration: 1000, easing: 'easeOutQuart' };
+        
+        processSystemChecks();
+        render();
+        initNotifications();
+
+        // Close dropdowns on outside click
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show'));
+            }
+        });
+    }
+
+    function loadData() {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(raw) {
+            try { appData = JSON.parse(raw); } catch(e){}
+        }
+        if(!appData.habits) appData.habits = {};
+        if(!appData.records) appData.records = {};
+        if(!appData.notebook) appData.notebook = [];
+        if(!appData.completed) appData.completed = [];
+        if(typeof appData.payments !== 'number') appData.payments = 0;
+        if(!appData.habits[viewYear]) appData.habits[viewYear] = [];
+    }
+    function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); }
+
+    function processSystemChecks() {
+        let modified = false;
+
+        Object.keys(appData.habits).forEach(yStr => {
+            appData.habits[yStr].forEach(h => {
+                if (!h.attemptStart) h.attemptStart = { ...today }; 
+                if (!h.failures) h.failures = 0;
+                if (!h.chillaCount) h.chillaCount = 1;
+
+                let checkEnd = { ...today };
+                checkEnd.day -= 2;
+                while (checkEnd.day < 1) {
+                    checkEnd.month -= 1;
+                    if (checkEnd.month < 1) { checkEnd.month = 12; checkEnd.year -= 1; }
+                    checkEnd.day += getDays(checkEnd.year, checkEnd.month);
+                }
+
+                let startVal = h.attemptStart.year*10000 + h.attemptStart.month*100 + h.attemptStart.day;
+                let endVal = checkEnd.year*10000 + checkEnd.month*100 + checkEnd.day;
+
+                let failed = false;
+                let failDate = null;
+
+                if (startVal <= endVal) {
+                    iterateDays(h.attemptStart, checkEnd, (y, m, d) => {
+                        if (failed) return; 
+                        let k = `${y}-${m}`;
+                        let state = appData.records[k]?.[h.id]?.[d] || 'none';
+                        if (state === 'none') {
+                            failed = true;
+                            failDate = `${toFa(y)}/${toFa(m)}/${toFa(d)}`;
+                        }
+                    });
+                }
+
+                if (failed) {
+                    h.failures++;
+                    h.attemptStart = { ...today }; 
+                    Object.keys(appData.records).forEach(mk => {
+                        if (appData.records[mk] && appData.records[mk][h.id]) {
+                            delete appData.records[mk][h.id];
+                        }
+                    });
+                    
+                    appData.notebook.push({
+                        id: Date.now() + Math.random(),
+                        habitId: h.id,
+                        habitName: h.name,
+                        text: `❌ شکست خودکار در چله ${toFa(h.chillaCount)}: در تاریخ ${failDate} خالی ماند و قفل شد. (تعداد کل شکست‌ها: ${toFa(h.failures)})`,
+                        date: `${toFa(today.year)}/${toFa(String(today.month).padStart(2,'0'))}/${toFa(String(today.day).padStart(2,'0'))}`,
+                        type: 'system'
+                    });
+                    modified = true;
+                } else {
+                    let ticks = 0;
+                    let endValToday = today.year*10000 + today.month*100 + today.day;
+                    if (startVal <= endValToday) {
+                        iterateDays(h.attemptStart, today, (y, m, d) => {
+                            let k = `${y}-${m}`;
+                            let state = appData.records[k]?.[h.id]?.[d] || 'none';
+                            if (state !== 'none') ticks++;
+                        });
+                    }
+
+                    if (ticks >= 40) {
+                        appData.completed.push({
+                            habitName: `${h.name} (چله ${toFa(h.chillaCount)})`,
+                            date: `${toFa(today.year)}/${toFa(String(today.month).padStart(2,'0'))}/${toFa(String(today.day).padStart(2,'0'))}`
+                        });
+                        appData.notebook.push({
+                            id: Date.now() + Math.random(),
+                            habitId: h.id,
+                            habitName: h.name,
+                            text: `🎉 تبریک! چله شماره ${toFa(h.chillaCount)} با موفقیت گذرانده شد و وارد چله بعدی می‌شوید.`,
+                            date: `${toFa(today.year)}/${toFa(String(today.month).padStart(2,'0'))}/${toFa(String(today.day).padStart(2,'0'))}`,
+                            type: 'system'
+                        });
+                        
+                        h.chillaCount++;
+                        let nextDay = { ...today };
+                        nextDay.day++;
+                        if(nextDay.day > getDays(nextDay.year, nextDay.month)) {
+                            nextDay.day = 1; nextDay.month++;
+                            if(nextDay.month > 12) { nextDay.month = 1; nextDay.year++; }
+                        }
+                        h.attemptStart = nextDay;
+                        modified = true;
+                    }
+                }
+            });
+        });
+
+        if (modified) saveData();
+    }
+
+    function setupSelectors() {
+        const ys = document.getElementById('year-select');
+        const ms = document.getElementById('month-select');
+        ys.innerHTML = ''; ms.innerHTML = '';
+        for(let y = today.year - 1; y <= today.year + 2; y++) ys.add(new Option(toFa(y), y));
+        const mNames = ["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
+        mNames.forEach((n, i) => ms.add(new Option(n, i+1)));
+        ys.value = viewYear; ms.value = viewMonth;
+        lockFutureSelects();
+    }
+
+    function lockFutureSelects() {
+        const ys = document.getElementById('year-select');
+        const ms = document.getElementById('month-select');
+        Array.from(ys.options).forEach(opt => opt.disabled = parseInt(opt.value) > today.year);
+        Array.from(ms.options).forEach(opt => opt.disabled = (viewYear === today.year && parseInt(opt.value) > today.month));
+    }
+
+    function changeDate() {
+        viewYear = parseInt(document.getElementById('year-select').value);
+        viewMonth = parseInt(document.getElementById('month-select').value);
+        if(!appData.habits[viewYear]) appData.habits[viewYear] = [];
+        lockFutureSelects();
+        render();
+    }
+
+    function goToToday() {
+        viewYear = today.year; viewMonth = today.month;
+        document.getElementById('year-select').value = viewYear;
+        document.getElementById('month-select').value = viewMonth;
+        changeDate();
+    }
+
+    function loadPreset() {
+        const val = document.getElementById('preset-habits').value;
+        const customDiv = document.getElementById('custom-habit-fields');
+        if(val === 'other') {
+            customDiv.style.display = 'flex';
+        } else {
+            customDiv.style.display = 'none';
+        }
+    }
+
+    window.handlePenaltyInput = function(input) {
+        let val = input.value.replace(/,/g, '').replace(/[^\d۰-۹]/g, '');
+        if(!val) { 
+            input.value = ''; 
+            hideSuggestions(); 
+            return; 
+        }
+        
+        let num = parseFaNum(val);
+        input.value = toFa(num.toLocaleString('en-US'));
+        
+        const suggBox = document.getElementById('penalty-suggestions');
+        suggBox.innerHTML = '';
+        if(num > 0) {
+            let multipliers = [1000, 10000, 100000];
+            let html = '';
+            multipliers.forEach(m => {
+                let sVal = num * m;
+                html += `<div class="suggestion-item" onmousedown="selectSuggestion(${sVal})">
+                            <span>${toFa(sVal.toLocaleString('en-US'))}</span>
+                            <span class="suggestion-label">تومان</span>
+                         </div>`;
+            });
+            suggBox.innerHTML = html;
+            suggBox.style.display = 'flex';
+        } else {
+            hideSuggestions();
+        }
+    }
+
+    window.hideSuggestions = function() {
+        document.getElementById('penalty-suggestions').style.display = 'none';
+    }
+
+    window.selectSuggestion = function(val) {
+        const input = document.getElementById('habit-penalty');
+        input.value = toFa(val.toLocaleString('en-US'));
+        hideSuggestions();
+    }
+
+    function addHabit() {
+        const presetSel = document.getElementById('preset-habits');
+        const val = presetSel.value;
+        const penaltyRaw = document.getElementById('habit-penalty').value;
+        const penalty = parseFaNum(penaltyRaw);
+        
+        if (!val) return showToast('لطفا یک عادت را از لیست انتخاب کنید یا روی سایر کلیک کنید.');
+        
+        let title, small, special, emergency;
+
+        if (val === 'other') {
+            title = document.getElementById('custom-title').value.trim();
+            small = document.getElementById('custom-small').value.trim() || 'نامشخص';
+            special = document.getElementById('custom-special').value.trim() || 'نامشخص';
+            emergency = document.getElementById('custom-emergency').value.trim() || 'ندارد';
+            
+            if (!title) return showToast('لطفاً عنوان عادت را وارد کنید.');
+        } else {
+            const opt = presetSel.options[presetSel.selectedIndex];
+            title = opt.getAttribute('data-title');
+            small = opt.getAttribute('data-small');
+            special = opt.getAttribute('data-special');
+            emergency = opt.getAttribute('data-emergency');
+        }
+        
+        appData.habits[viewYear].push({ 
+            id: 'h_'+Date.now(), 
+            name: title, 
+            penalty: penalty,
+            small: small,
+            special: special,
+            emergency: emergency,
+            attemptStart: { ...today },
+            failures: 0,
+            chillaCount: 1
+        });
+        
+        presetSel.value = '';
+        document.getElementById('habit-penalty').value = '';
+        document.getElementById('custom-title').value = '';
+        document.getElementById('custom-small').value = '';
+        document.getElementById('custom-special').value = '';
+        document.getElementById('custom-emergency').value = '';
+        loadPreset();
+        
+        saveData(); render();
+    }
+
+    function deleteHabit(id) {
+        if(confirm('آیا از حذف این عادت مطمئن هستید؟ تمام سوابق آن پاک خواهد شد.')) {
+            appData.habits[viewYear] = appData.habits[viewYear].filter(h => h.id !== id);
+            saveData(); render();
+        }
+    }
+
+    window.editHabit = function(id) {
+        const h = appData.habits[viewYear].find(x => x.id === id);
+        if(!h) return;
+        const newName = prompt("ویرایش نام عادت:", h.name);
+        if(newName === null) return;
+        const newPen = prompt("ویرایش جریمه روزانه (تومان):", h.penalty);
+        if(newPen === null) return;
+
+        if(newName.trim()) h.name = newName.trim();
+        let pVal = parseFaNum(newPen);
+        if(!isNaN(pVal)) h.penalty = pVal;
+
+        saveData();
+        render();
+        showToast('عادت با موفقیت ویرایش شد.');
+    }
+
+    window.toggleDropdown = function(event, id) {
+        event.stopPropagation();
+        document.querySelectorAll('.dropdown-content').forEach(d => {
+            if(d.id !== 'dropdown-' + id) d.classList.remove('show');
+        });
+        const content = document.getElementById('dropdown-' + id);
+        if(content) content.classList.toggle('show');
+    }
+
+    window.toggleNotebook = function() {
+        const nc = document.getElementById('notebook-card');
+        nc.classList.toggle('open');
+    }
+
+    window.toggleBite = function(hId, day, el) {
+        let cellVal = viewYear*10000 + viewMonth*100 + day;
+        let todayVal = today.year*10000 + today.month*100 + today.day;
+        
+        let checkEnd = { ...today };
+        checkEnd.day -= 2;
+        while (checkEnd.day < 1) {
+            checkEnd.month -= 1;
+            if (checkEnd.month < 1) { checkEnd.month = 12; checkEnd.year -= 1; }
+            checkEnd.day += getDays(checkEnd.year, checkEnd.month);
+        }
+        let lockedVal = checkEnd.year*10000 + checkEnd.month*100 + checkEnd.day;
+
+        if(cellVal > todayVal) return; 
+        if(cellVal <= lockedVal) return; 
+
+        const k = `${viewYear}-${viewMonth}`;
+        if(!appData.records[k]) appData.records[k] = {};
+        if(!appData.records[k][hId]) appData.records[k][hId] = {};
+
+        const habit = appData.habits[viewYear].find(x => x.id === hId);
+        
+        let hasEmg = false;
+        if (habit && habit.emergency && habit.emergency.trim() !== '' && !habit.emergency.includes('ندارد')) {
+            hasEmg = true;
+        }
+
+        const current = appData.records[k][hId][day] || 'none';
+        
+        let states = ['none', 'small', 'special'];
+        if(hasEmg) states.push('emergency');
+        
+        let currentIndex = states.indexOf(current);
+        if (currentIndex === -1) currentIndex = 0; 
+        
+        let next = states[(currentIndex + 1) % states.length];
+
+        if(next === 'none') delete appData.records[k][hId][day];
+        else appData.records[k][hId][day] = next;
+        
+        saveData(); 
+        
+        if (el) {
+            const ind = el.querySelector('.bite-indicator');
+            if (ind) {
+                ind.className = 'bite-indicator';
+                if(next !== 'none') ind.classList.add('bite-' + next);
+            }
+        }
+        
+        updateStatsOnly();
+        if(charts.bar) updatePrimaryChartData();
+        if(charts.secondary) updateSecondaryChartData();
+    };
+
+    function payPenalty() {
+        const debt = calculateTotalPenalty() - appData.payments;
+        if(debt <= 0) return showToast('بدهی جریمه ندارید! موفق باشید.');
+        const p = prompt(`بدهی فعلی: ${toFa(debt.toLocaleString())} تومان.\nلطفاً مبلغی که پرداخت کرده‌اید را به عدد وارد کنید:`);
+        if(p) {
+            let val = parseFaNum(p);
+            if (!isNaN(val) && val > 0) {
+                appData.payments += val;
+                saveData(); updateStatsOnly();
+                showToast('پرداخت با موفقیت در سیستم ثبت شد.');
+            }
+        }
+    }
+
+    function calculateTotalPenalty() {
+        let total = 0;
+        Object.keys(appData.habits).forEach(y => {
+            const yearHabits = appData.habits[y];
+            for(let m=1; m<=12; m++) {
+                if(y == today.year && m > today.month) continue;
+                
+                const k = `${y}-${m}`;
+                const daysInM = getDays(y, m);
+                
+                let penaltyLimit = daysInM;
+                if (y == today.year && m == today.month) {
+                    penaltyLimit = today.day - 1; 
+                }
+                
+                if (penaltyLimit <= 0) continue;
+                
+                yearHabits.forEach(h => {
+                    let doneDays = 0;
+                    if(appData.records[k] && appData.records[k][h.id]) {
+                        Object.keys(appData.records[k][h.id]).forEach(d => { if(parseInt(d) <= penaltyLimit) doneDays++; });
+                    }
+                    total += (penaltyLimit - doneDays) * h.penalty;
+                });
+            }
+        });
+        return total;
+    }
+    
+    window.toggleBlurMode = function() {
+        isBlurMode = !isBlurMode;
+        const tbody = document.getElementById('tbody');
+        const canvases = document.querySelectorAll('.chart-canvas-wrapper');
+        if(isBlurMode) {
+            tbody.classList.add('cloud-blur');
+            canvases.forEach(c => c.classList.add('cloud-blur'));
+        } else {
+            tbody.classList.remove('cloud-blur');
+            canvases.forEach(c => c.classList.remove('cloud-blur'));
+        }
+    }
+
+    function updateStatsOnly() {
+        const days = getDays(viewYear, viewMonth);
+        const k = `${viewYear}-${viewMonth}`;
+        const isCurrentM = (viewYear === today.year && viewMonth === today.month);
+        const habits = appData.habits[viewYear] || [];
+        const limit = isCurrentM ? today.day : days;
+        let penaltyLimit = isCurrentM ? (today.day - 1) : days;
+        if (penaltyLimit < 0) penaltyLimit = 0;
+
+        const tbody = document.getElementById('tbody');
+        if(tbody.children.length === habits.length) {
+            habits.forEach((h, index) => {
+                const tr = tbody.children[index];
+                const recs = (appData.records[k] && appData.records[k][h.id]) ? appData.records[k][h.id] : {};
+                
+                let doneForPenalty = 0;
+                let streak = 0;
+                
+                let startDay = limit;
+                if (isCurrentM && (!recs[limit] || recs[limit] === 'none')) {
+                    startDay = limit - 1;
+                }
+                
+                for(let d = startDay; d >= 1; d--) {
+                    if (recs[d] && recs[d] !== 'none') streak++;
+                    else break;
+                }
+                for(let d=1; d<=penaltyLimit; d++) {
+                    if(recs[d] && recs[d] !== 'none') doneForPenalty++;
+                }
+
+                let doneForProgress = 0;
+                for(let d=1; d<=limit; d++) {
+                    if (recs[d] && recs[d] !== 'none') doneForProgress++;
+                }
+                let percent = limit > 0 ? Math.round((doneForProgress / limit) * 100) : 0;
+                
+                let pen = Math.max(0, penaltyLimit - doneForPenalty) * h.penalty;
+                tr.querySelector('.stat-col').textContent = toFa(streak);
+                tr.querySelector('.penalty-col').textContent = pen > 0 ? toFa(pen.toLocaleString()) : '-';
+                
+                const pFill = tr.querySelector('.progress-fill');
+                const pTextSpans = tr.querySelectorAll('.progress-text span');
+                if(pFill && pTextSpans.length >= 1) {
+                    pFill.style.width = percent + '%';
+                    pTextSpans[0].textContent = toFa(percent) + '٪';
+                }
+            });
+        }
+
+        const tPen = calculateTotalPenalty();
+        document.getElementById('total-penalty').textContent = toFa(tPen.toLocaleString()) + ' تومان';
+        document.getElementById('paid-penalty').textContent = toFa(appData.payments.toLocaleString()) + ' تومان';
+        document.getElementById('debt-penalty').textContent = toFa(Math.max(0, tPen - appData.payments).toLocaleString()) + ' تومان';
+    }
+
+    function renderNotebook() {
+        const nhs = document.getElementById('notebook-habit-select');
+        nhs.innerHTML = '<option value="">-- انتخاب عادت برای نوشتن تحلیل --</option>';
+        (appData.habits[viewYear] || []).forEach(h => {
+            nhs.add(new Option(h.name, h.id));
+        });
+
+        const nl = document.getElementById('notebook-list');
+        nl.innerHTML = '';
+        const notes = (appData.notebook || []).slice().reverse(); 
+        if (notes.length === 0) {
+            nl.innerHTML = '<div style="color:var(--text-muted); padding:10px;">هنوز تحلیلی ثبت نشده است.</div>';
+        } else {
+            notes.forEach(note => {
+                let div = document.createElement('div');
+                div.className = `note-item ${note.type}`;
+                div.innerHTML = `
+                    <div class="note-meta">
+                        <span>${note.habitName}</span>
+                        <div>${note.date}</div>
+                    </div>
+                    <div>${note.text}</div>
+                `;
+                nl.appendChild(div);
+            });
+        }
+
+        const compDiv = document.getElementById('completed-habits-container');
+        if (appData.completed && appData.completed.length > 0) {
+            compDiv.style.display = 'flex';
+            let chHtml = '';
+            appData.completed.forEach(c => {
+                chHtml += `<div class="completed-badge"><span class="material-symbols-rounded" style="font-size:16px">verified</span> ${c.habitName} (${c.date})</div>`;
+            });
+            compDiv.innerHTML = chHtml;
+        } else {
+            compDiv.style.display = 'none';
+        }
+    }
+
+    window.addNotebookEntry = function() {
+        const hId = document.getElementById('notebook-habit-select').value;
+        const text = document.getElementById('notebook-input').value.trim();
+        
+        if (!hId) return showToast('لطفاً یک عادت را انتخاب کنید.');
+        if (!text) return showToast('متن تحلیل نمی‌تواند خالی باشد.');
+
+        const h = appData.habits[viewYear].find(x => x.id === hId);
+        
+        appData.notebook.push({
+            id: Date.now(),
+            habitId: hId,
+            habitName: h ? h.name : 'نامشخص',
+            text: text,
+            date: `${toFa(today.year)}/${toFa(String(today.month).padStart(2,'0'))}/${toFa(String(today.day).padStart(2,'0'))}`,
+            type: 'user'
+        });
+
+        document.getElementById('notebook-input').value = '';
+        saveData();
+        renderNotebook();
+        showToast('تحلیل ثبت شد.');
+    }
+
+    function render() {
+        const days = getDays(viewYear, viewMonth);
+        const k = `${viewYear}-${viewMonth}`;
+        const isCurrentM = (viewYear === today.year && viewMonth === today.month);
+        const habits = appData.habits[viewYear] || [];
+        
+        const limit = isCurrentM ? today.day : days;
+        let penaltyLimit = isCurrentM ? (today.day - 1) : days;
+        if (penaltyLimit < 0) penaltyLimit = 0;
+
+        let checkEnd = { ...today };
+        checkEnd.day -= 2;
+        while (checkEnd.day < 1) {
+            checkEnd.month -= 1;
+            if (checkEnd.month < 1) { checkEnd.month = 12; checkEnd.year -= 1; }
+            checkEnd.day += getDays(checkEnd.year, checkEnd.month);
+        }
+        let lockedVal = checkEnd.year*10000 + checkEnd.month*100 + checkEnd.day;
+        
+        currentRenderData = { habits, limit, viewKey: k, days: days };
+
+        let th = `<th>عادت‌های ${toFa(viewYear)}</th>`;
+        for(let d=1; d<=days; d++) th += `<th class="day-cell ${isCurrentM && d===today.day?'today':''}">${toFa(d)}</th>`;
+        th += `<th class="stat-col">استریک🔥</th><th class="penalty-col">جریمه (ت)</th>`;
+        document.getElementById('thead-row').innerHTML = th;
+
+        let tb = '';
+        if(habits.length === 0) tb = `<tr><td colspan="${days+3}" style="padding: 2rem; color: var(--text-muted); font-size: 1rem;">عادتی در این سال ثبت نشده است. از فرم بالا اولین عادت خود را اضافه کنید.</td></tr>`;
+        
+        habits.forEach(h => {
+            const recs = (appData.records[k] && appData.records[k][h.id]) ? appData.records[k][h.id] : {};
+            let doneForPenalty = 0;
+            let doneForProgress = 0;
+            
+            let streak = 0;
+            let startDay = limit;
+            if (isCurrentM && (!recs[limit] || recs[limit] === 'none')) {
+                startDay = limit - 1;
+            }
+            for(let d = startDay; d >= 1; d--) {
+                if (recs[d] && recs[d] !== 'none') streak++;
+                else break;
+            }
+            
+            for(let d=1; d<=limit; d++) {
+                if (recs[d] && recs[d] !== 'none') doneForProgress++;
+            }
+            let percent = limit > 0 ? Math.round((doneForProgress / limit) * 100) : 0;
+
+            let row = `<td>
+                <div style="display:flex; justify-content:space-between; align-items:center; text-align:right; margin-bottom:4px;">
+                    <div style="display:flex; align-items:center; overflow:visible;">
+                        <div class="tooltip-wrapper">
+                            <span class="info-mark">!</span>
+                            <div class="tooltip-box">
+                                <div class="tooltip-row"><span class="dot small"></span> <strong>کوچک:</strong> <span style="flex:1">${h.small}</span></div>
+                                <div class="tooltip-row"><span class="dot special"></span> <strong>ویژه:</strong> <span style="flex:1">${h.special}</span></div>
+                                <div class="tooltip-row"><span class="dot emergency"></span> <strong>اضطراری:</strong> <span style="flex:1">${h.emergency}</span></div>
+                            </div>
+                        </div>
+                        <strong title="${h.name}" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:0.9rem; margin-right:4px;">${h.name}</strong>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:4px;">
+                        <span style="font-size:0.75rem; background:var(--primary-fade); color:var(--primary); padding:2px 6px; border-radius:10px; font-weight:bold;">چله ${toFa(h.chillaCount || 1)}</span>
+                        <div class="dropdown">
+                            <button class="btn-icon" style="padding:2px; border:none; background:transparent;" onclick="toggleDropdown(event, '${h.id}')"><span class="material-symbols-rounded" style="font-size:18px">more_vert</span></button>
+                            <div class="dropdown-content" id="dropdown-${h.id}">
+                                <button onclick="editHabit('${h.id}')"><span class="material-symbols-rounded" style="font-size:16px">edit</span> ویرایش عادت</button>
+                                <button onclick="editPenaltyPrompt('${h.id}')"><span class="material-symbols-rounded" style="font-size:16px">payments</span> ویرایش جریمه</button>
+                                <button class="danger" onclick="deleteHabit('${h.id}')"><span class="material-symbols-rounded" style="font-size:16px">delete</span> حذف عادت</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-wrapper">
+                    <div class="progress-fill" style="width: ${percent}%;"></div>
+                </div>
+                <div class="progress-text">
+                    <span>${toFa(percent)}٪</span>
+                </div>
+            </td>`;
+
+            for(let d=1; d<=days; d++) {
+                let cellVal = viewYear*10000 + viewMonth*100 + d;
+                let todayVal = today.year*10000 + today.month*100 + today.day;
+                
+                let isFut = cellVal > todayVal;
+                let isLocked = cellVal <= lockedVal;
+
+                let state = recs[d] || 'none';
+                if(d <= penaltyLimit && state !== 'none') doneForPenalty++;
+                
+                let bClass = state !== 'none' ? `bite-${state}` : '';
+                let tdClass = `day-cell ${isFut?'future':''} ${isCurrentM&&d===today.day?'today':''} ${isLocked?'locked':''}`;
+                let onClickStr = (!isFut && !isLocked) ? `onclick="toggleBite('${h.id}', ${d}, this)"` : '';
+
+                row += `<td class="${tdClass}" ${onClickStr}>
+                            <div class="bite-indicator ${bClass}"></div>
+                        </td>`;
+            }
+
+            let pen = Math.max(0, penaltyLimit - doneForPenalty) * h.penalty;
+            row += `<td class="stat-col" style="color:var(--warning);">${toFa(streak)}</td>`;
+            row += `<td class="penalty-col">${pen>0 ? toFa(pen.toLocaleString()) : '-'}</td>`;
+            tb += `<tr>${row}</tr>`;
+        });
+        document.getElementById('tbody').innerHTML = tb;
+        
+        if (isBlurMode) {
+            document.getElementById('tbody').classList.add('cloud-blur');
+        }
+
+        updateStatsOnly();
+        renderNotebook();
+        drawPrimaryChart();
+        drawSecondaryChart();
+    }
+
+    window.editPenaltyPrompt = function(id) {
+        const h = appData.habits[viewYear].find(x => x.id === id);
+        if(!h) return;
+        const newPen = prompt("ویرایش جریمه روزانه (تومان):", h.penalty);
+        if(newPen === null) return;
+        let pVal = parseFaNum(newPen);
+        if(!isNaN(pVal)) {
+            h.penalty = pVal;
+            saveData();
+            render();
+            showToast('جریمه با موفقیت ویرایش شد.');
+        }
+    }
+
+    // --- Colors and Themes Management ---
+    function getThemePrimaryColor() {
+        return getComputedStyle(document.documentElement).getPropertyValue('--primary-fade').trim();
+    }
+    function getThemeSolidPrimary() {
+        return getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
+    }
+
+    function initTheme() {
+        const t = localStorage.getItem('theme-mode') || 'light';
+        document.documentElement.setAttribute('data-theme', t);
+        updateNightModeIcon(t);
+        
+        const c = localStorage.getItem('theme-color') || 'indigo';
+        document.documentElement.setAttribute('data-color', c);
+        updateActiveSwatch(c);
+    }
+
+    function updateNightModeIcon(mode) {
+        document.getElementById('theme-btn').innerHTML = mode === 'dark' ? '<span class="material-symbols-rounded">light_mode</span>' : '<span class="material-symbols-rounded">dark_mode</span>';
+    }
+
+    function updateActiveSwatch(colorStr) {
+        document.querySelectorAll('.swatch').forEach(el => el.classList.remove('active'));
+        const activeSwatch = document.querySelector(`.swatch[onclick="changeColorTheme('${colorStr}')"]`);
+        if(activeSwatch) activeSwatch.classList.add('active');
+    }
+
+    window.toggleTheme = function() {
+        const n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', n);
+        localStorage.setItem('theme-mode', n);
+        updateNightModeIcon(n);
+        drawPrimaryChart();
+        drawSecondaryChart();
+    }
+
+    window.changeColorTheme = function(val) {
+        document.documentElement.setAttribute('data-color', val);
+        localStorage.setItem('theme-color', val);
+        updateActiveSwatch(val);
+        drawPrimaryChart();
+        drawSecondaryChart();
+    }
+
+    function getChartThemeColors() {
+        return {
+            fontFamily: 'Vazirmatn',
+            color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#94a3b8' : '#64748b'
+        };
+    }
+
+    // --- Charts ---
+    function updatePrimaryChartData() {
+        if(!charts.bar) return;
+        const dsSmall = [], dsSpecial = [], dsEmergency = [];
+        currentRenderData.habits.forEach(h => {
+            const recs = appData.records[currentRenderData.viewKey]?.[h.id] || {};
+            let cSmall = 0, cSpecial = 0, cEmergency = 0;
+            for(let d=1; d<=currentRenderData.limit; d++) {
+                if(recs[d] === 'small') cSmall++;
+                else if(recs[d] === 'special') cSpecial++;
+                else if(recs[d] === 'emergency') cEmergency++;
+            }
+            dsSmall.push(cSmall); dsSpecial.push(cSpecial); dsEmergency.push(cEmergency);
+        });
+        charts.bar.data.datasets[0].data = dsSmall;
+        charts.bar.data.datasets[1].data = dsSpecial;
+        charts.bar.data.datasets[2].data = dsEmergency;
+        charts.bar.update();
+    }
+
+    function drawPrimaryChart() {
+        const theme = getChartThemeColors();
+        Chart.defaults.font.family = theme.fontFamily;
+        Chart.defaults.color = theme.color;
+
+        const ctxBar = document.getElementById('biteBarChart');
+        if(charts.bar) charts.bar.destroy();
+        
+        const barLabels = [];
+        const dsSmall = [], dsSpecial = [], dsEmergency = [];
+        
+        currentRenderData.habits.forEach(h => {
+            barLabels.push(h.name.substring(0, 15) + (h.name.length > 15 ? '...' : ''));
+            const recs = appData.records[currentRenderData.viewKey]?.[h.id] || {};
+            let cSmall = 0, cSpecial = 0, cEmergency = 0;
+            
+            for(let d=1; d<=currentRenderData.limit; d++) {
+                if(recs[d] === 'small') cSmall++;
+                else if(recs[d] === 'special') cSpecial++;
+                else if(recs[d] === 'emergency') cEmergency++;
+            }
+            dsSmall.push(cSmall); dsSpecial.push(cSpecial); dsEmergency.push(cEmergency);
+        });
+
+        charts.bar = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: barLabels,
+                datasets: [
+                    { label: 'لقمه کوچک', data: dsSmall, backgroundColor: '#10b981', borderRadius: 4 },
+                    { label: 'لقمه ویژه', data: dsSpecial, backgroundColor: '#3b82f6', borderRadius: 4 },
+                    { label: 'لقمه اضطراری', data: dsEmergency, backgroundColor: '#eab308', borderRadius: 4 }
+                ]
+            },
+            options: { 
+                indexAxis: 'y',
+                responsive: true, maintainAspectRatio: false,
+                scales: { 
+                    x: { stacked: true, reverse: true, ticks: { stepSize: 1, callback: val => toFa(val) } }, 
+                    y: { stacked: true, position: 'right' } 
+                },
+                plugins: { 
+                    legend: { position: 'bottom' },
+                    tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + toFa(ctx.parsed.x) } },
+                    datalabels: {
+                        display: true,
+                        color: '#ffffff',
+                        font: { family: 'Vazirmatn', weight: 'bold', size: 12 },
+                        formatter: function(value) { return value > 0 ? toFa(value) : ''; }
+                    }
+                }
+            }
+        });
+        
+        if(isBlurMode) document.getElementById('biteBarChart').parentNode.classList.add('cloud-blur');
+    }
+
+    function updateSecondaryChartData() {
+        const type = document.getElementById('secondary-chart-type').value;
+        if(type === 'daily' && charts.secondary && charts.secondary.config.type === 'line') {
+            const dailyCounts = new Array(currentRenderData.limit).fill(0);
+            currentRenderData.habits.forEach(h => {
+                const recs = appData.records[currentRenderData.viewKey]?.[h.id] || {};
+                for(let d=1; d<=currentRenderData.limit; d++) {
+                    if(recs[d] && recs[d] !== 'none') dailyCounts[d-1]++;
+                }
+            });
+            charts.secondary.data.datasets[0].data = dailyCounts;
+            charts.secondary.update();
+        } else {
+            drawSecondaryChart();
+        }
+    }
+
+    window.changeSecondaryChart = function() {
+        const wrapper = document.getElementById('secondary-chart-wrapper');
+        wrapper.style.opacity = 0;
+        setTimeout(() => {
+            drawSecondaryChart();
+            wrapper.style.opacity = 1;
+        }, 300);
+    }
+
+    window.drawSecondaryChart = function() {
+        const type = document.getElementById('secondary-chart-type').value;
+        const ctx = document.getElementById('secondaryChart');
+        if(charts.secondary) charts.secondary.destroy();
+        
+        const theme = getChartThemeColors();
+        const primaryColorSolid = getThemeSolidPrimary();
+        const primaryFade = getThemePrimaryColor();
+        Chart.defaults.font.family = theme.fontFamily;
+        Chart.defaults.color = theme.color;
+
+        if (type === 'daily') {
+            const lineLabels = Array.from({length: currentRenderData.limit}, (_, i) => toFa(i + 1));
+            const dailyCounts = new Array(currentRenderData.limit).fill(0);
+            
+            currentRenderData.habits.forEach(h => {
+                const recs = appData.records[currentRenderData.viewKey]?.[h.id] || {};
+                for(let d=1; d<=currentRenderData.limit; d++) {
+                    if(recs[d] && recs[d] !== 'none') dailyCounts[d-1]++;
+                }
+            });
+
+            charts.secondary = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: lineLabels,
+                    datasets: [{ 
+                        label: 'تعداد تیک‌های روزانه', 
+                        data: dailyCounts, 
+                        borderColor: primaryColorSolid,
+                        backgroundColor: primaryFade,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: primaryColorSolid,
+                        pointBorderColor: '#fff',
+                        pointRadius: 4
+                    }]
+                },
+                options: { 
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true, suggestedMax: currentRenderData.habits.length || 1, ticks: { stepSize: 1, callback: val => toFa(val) } } },
+                    plugins: { 
+                        tooltip: { callbacks: { label: ctx => toFa(ctx.parsed.y) + ' مورد' } },
+                        datalabels: { display: false }
+                    }
+                }
+            });
+        } 
+        else if (type === 'monthly') {
+            const monthNames = ["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
+            const monthlyDone = new Array(12).fill(0);
+            const monthlyExpected = new Array(12).fill(0);
+            
+            currentRenderData.habits.forEach(h => {
+                for (let m = 1; m <= 12; m++) {
+                    const mk = `${viewYear}-${m}`;
+                    const recs = appData.records[mk]?.[h.id] || {};
+                    const limitForMonth = (viewYear === today.year && m === today.month) ? today.day : getDays(viewYear, m);
+                    
+                    if(viewYear === today.year && m > today.month) continue;
+                    monthlyExpected[m-1] += limitForMonth;
+                    for(let d=1; d<=limitForMonth; d++) {
+                        if(recs[d] && recs[d] !== 'none') monthlyDone[m-1]++;
+                    }
+                }
+            });
+
+            const percentData = monthlyDone.map((done, i) => {
+                return monthlyExpected[i] > 0 ? Math.round((done / monthlyExpected[i]) * 100) : 0;
+            });
+
+            charts.secondary = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: monthNames,
+                    datasets: [{
+                        label: 'درصد پیشرفت',
+                        data: percentData,
+                        backgroundColor: primaryColorSolid,
+                        borderRadius: 6
+                    }]
+                },
+                options: { 
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true, max: 100, ticks: { callback: val => toFa(val) + '٪' } } },
+                    plugins: { 
+                        tooltip: { callbacks: { label: ctx => toFa(ctx.parsed.y) + '٪ انجام شده' } },
+                        datalabels: { display: false }
+                    }
+                }
+            });
+        }
+        else if (type === 'habits') {
+            const hLabels = [];
+            const hData = [];
+            
+            currentRenderData.habits.forEach((h, idx) => {
+                hLabels.push(h.name.substring(0, 15));
+                let count = 0;
+                const recs = appData.records[currentRenderData.viewKey]?.[h.id] || {};
+                for(let d=1; d<=currentRenderData.limit; d++) {
+                    if(recs[d] && recs[d] !== 'none') count++;
+                }
+                hData.push(count);
+            });
+
+            charts.secondary = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: hLabels,
+                    datasets: [{
+                        data: hData,
+                        backgroundColor: ['#f43f5e', '#8b5cf6', '#0ea5e9', '#10b981', '#f59e0b', '#ec4899', '#14b8a6', '#64748b', '#84cc16', '#06b6d4'],
+                        borderWidth: 0
+                    }]
+                },
+                options: { 
+                    responsive: true, maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: { 
+                        legend: { position: 'right' },
+                        tooltip: { callbacks: { label: ctx => ctx.label + ': ' + toFa(ctx.parsed) + ' بار' } },
+                        datalabels: { display: false }
+                    }
+                }
+            });
+        }
+        else if (type === 'penaltyTrend') {
+            const lineLabels = Array.from({length: currentRenderData.limit}, (_, i) => toFa(i + 1));
+            const penaltyData = new Array(currentRenderData.limit).fill(0);
+            
+            let cumulativePenalty = 0;
+            for(let d=1; d<=currentRenderData.limit; d++) {
+                let dailyPenalty = 0;
+                if (d < currentRenderData.limit || (viewYear !== today.year || viewMonth !== today.month)) {
+                    currentRenderData.habits.forEach(h => {
+                        const recs = appData.records[currentRenderData.viewKey]?.[h.id] || {};
+                        if (!recs[d] || recs[d] === 'none') dailyPenalty += h.penalty;
+                    });
+                }
+                cumulativePenalty += dailyPenalty;
+                penaltyData[d-1] = cumulativePenalty;
+            }
+
+            charts.secondary = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: lineLabels,
+                    datasets: [{ 
+                        label: 'مجموع جریمه ماه (تومان)', 
+                        data: penaltyData, 
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0
+                    }]
+                },
+                options: { 
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true, ticks: { callback: val => toFa(val) } } },
+                    plugins: { 
+                        tooltip: { callbacks: { label: ctx => toFa(ctx.parsed.y.toLocaleString()) + ' تومان' } },
+                        datalabels: { display: false }
+                    }
+                }
+            });
+        }
+        else if (type === 'streakCompare') {
+            const hLabels = [];
+            const streakData = [];
+            
+            currentRenderData.habits.forEach((h, idx) => {
+                hLabels.push(h.name.substring(0, 15));
+                const recs = appData.records[currentRenderData.viewKey]?.[h.id] || {};
+                let streak = 0;
+                let startDay = currentRenderData.limit;
+                if (viewYear === today.year && viewMonth === today.month && (!recs[startDay] || recs[startDay] === 'none')) {
+                    startDay--;
+                }
+                for(let d = startDay; d >= 1; d--) {
+                    if (recs[d] && recs[d] !== 'none') streak++;
+                    else break;
+                }
+                streakData.push(streak);
+            });
+
+            charts.secondary = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: hLabels,
+                    datasets: [{
+                        label: 'استریک جاری (روز)',
+                        data: streakData,
+                        backgroundColor: '#f59e0b',
+                        borderRadius: 4
+                    }]
+                },
+                options: { 
+                    indexAxis: 'y',
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { 
+                        x: { beginAtZero: true, ticks: { stepSize: 1, callback: val => toFa(val) } },
+                        y: { position: 'right' }
+                    },
+                    plugins: { 
+                        tooltip: { callbacks: { label: ctx => toFa(ctx.parsed.x) + ' روز' } },
+                        datalabels: { display: false }
+                    }
+                }
+            });
+        }
+        
+        if(isBlurMode) document.getElementById('secondary-chart-wrapper').classList.add('cloud-blur');
+    }
+
+    window.initNotifications = function() {
+        if ("Notification" in window && Notification.permission === "granted") {
+            document.getElementById('notif-icon').textContent = 'notifications_active';
+            document.getElementById('notif-icon').style.color = 'var(--success)';
+            scheduleNotification();
+        }
+    }
+
+    window.enableNotifications = function() {
+        if (!("Notification" in window)) {
+            showToast("مرورگر شما از هشدار پشتیبانی نمی‌کند.");
+            return;
+        }
+        Notification.requestPermission().then(function (permission) {
+            if (permission === "granted") {
+                document.getElementById('notif-icon').textContent = 'notifications_active';
+                document.getElementById('notif-icon').style.color = 'var(--success)';
+                showToast("هشدارها فعال شدند! (هر روز ساعت ۱۹:۵۰)");
+                scheduleNotification();
+            } else {
+                showToast("دسترسی به هشدار داده نشد.");
+            }
+        });
+    }
+
+    function scheduleNotification() {
+        let now = new Date();
+        let millisTill = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 19, 50, 0, 0) - now;
+        if (millisTill < 0) {
+             millisTill += 86400000; 
+        }
+        setTimeout(function() {
+            sendReminders();
+            scheduleNotification(); 
+        }, millisTill);
+    }
+
+    function sendReminders() {
+        const todayJ = getJalali();
+        const k = `${todayJ.year}-${todayJ.month}`;
+        const habits = appData.habits[todayJ.year] || [];
+        
+        let uncompleted = [];
+        habits.forEach(h => {
+            const state = (appData.records[k] && appData.records[k][h.id] && appData.records[k][h.id][todayJ.day]) ? appData.records[k][h.id][todayJ.day] : 'none';
+            if (state === 'none') {
+                uncompleted.push(h.name);
+            }
+        });
+
+        if (uncompleted.length > 0) {
+            new Notification("یادآوری عادت‌ها (عادت شمار)", {
+                body: "کارهای انجام نشده امروز:\n" + uncompleted.join('\n')
+            });
+        } else if (habits.length > 0) {
+            new Notification("عالی بود! (عادت شمار)", {
+                body: "تمام عادت‌های امروز را تیک زدی! 🎉"
+            });
+        }
+    }
+
+    window.openHelp = function() { document.getElementById('help-modal').style.display = 'flex'; }
+    window.closeHelp = function() { document.getElementById('help-modal').style.display = 'none'; }
+
+    window.showToast = function(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg; t.style.display = 'block';
+        setTimeout(() => t.style.display = 'none', 3500);
+    }
+    
+    window.exportData = function() {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([JSON.stringify(appData)], {type: 'application/json'}));
+        a.download = `HabitTracker_Export.json`; a.click();
+    }
+    window.importData = function(e) {
+        const f = e.target.files[0]; if(!f) return;
+        const r = new FileReader();
+        r.onload = function(evt) {
+            try { appData = JSON.parse(evt.target.result); saveData(); init(); showToast('اطلاعات با موفقیت بازیابی شد'); } 
+            catch(err) { showToast('فایل نامعتبر است'); }
+        }; r.readAsText(f);
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>
