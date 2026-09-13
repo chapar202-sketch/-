@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عادت شمار</title>
-    
+    <link rel="manifest" href="./manifest.json">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -700,7 +700,7 @@
                 html += `<div class="suggestion-item" onmousedown="selectSuggestion(${sVal})">
                             <span>${toFa(sVal.toLocaleString('en-US'))}</span>
                             <span class="suggestion-label">تومان</span>
-                         </div>`;
+                        </div>`;
             });
             suggBox.innerHTML = html;
             suggBox.style.display = 'flex';
